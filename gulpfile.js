@@ -7,14 +7,14 @@ const babelify = require("babelify");
 const buffer = require("vinyl-buffer");
 const source = require("vinyl-source-stream");
 const LessAutoprefix = require("less-plugin-autoprefix");
-const yards = require("yards");
+const yargs = require("yargs");
 const watchify = require("watchify");
 const gutil = require("gulp-util");
 const envify = require("envify/custom");
 const sourcemaps = require('gulp-sourcemaps');
 const reload = browserSync.reload;
 
-let isDebug = Boolean(yards.debug);
+let isDebug = Boolean(yargs.debug);
 // less autoprefix
 let autoprefix = new LessAutoprefix({ browsers: ['> 5%', 'Firefox >= 20'] });
 
