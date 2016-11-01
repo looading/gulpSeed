@@ -25,7 +25,7 @@ let customOpts = {
 
 let opts = Object.assign({}, watchify.args, customOpts);
 let babelOpts = {
-    presets: ["es2015", "stage-0"],
+    presets: ["es2015", "stage-0", 'react'],
     plugins: ["transform-remove-strict-mode", "transform-object-assign"]
 }
 let watchifyTask = watchify(browserify(opts)
