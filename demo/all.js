@@ -21275,7 +21275,7 @@ var Sign = function (_Component2) {
       validate: false,
       name: '',
       tel: '',
-      bid: ''
+      bid: bid
     };
     _this2.parentCallback = _this2.parentCallback.bind(_this2);
     _this2.submit = _this2.submit.bind(_this2);
@@ -21290,8 +21290,14 @@ var Sign = function (_Component2) {
   }, {
     key: 'submit',
     value: function submit() {
+      var regx = /^1[34578]\d{9}$/;
+      if (!regx.test(this.state.tel)) {
+        alert('手机号不合法!');
+        return 0;
+      }
+
       if (this.state.name != '' && this.state.tel != '' && this.state.nickid != '') {
-        fetch('/wechat/bind', {
+        fetch('/bind', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -21301,13 +21307,17 @@ var Sign = function (_Component2) {
             name: this.state.name,
             tel: this.state.tel,
             bid: this.state.bid,
-            code: code
+            code: code,
+            openid: openid
           })
         }).then(function (res) {
           return res.json();
         }).then(function (res) {
           if (res.status == 200) {
             alert('绑定成功!');
+            wx.ready(function () {
+              wx.closeWindow();
+            });
           } else {
             alert('绑定失败,请确认信息!');
           }

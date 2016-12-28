@@ -40,7 +40,7 @@ class Sign extends Component {
       validate: false,
       name:'',
       tel:'',
-      bid: ''
+      bid: bid
     }
     this.parentCallback = this.parentCallback.bind(this);
     this.submit = this.submit.bind(this);
@@ -50,8 +50,14 @@ class Sign extends Component {
   }
 
   submit() {
+    let regx = /^1[34578]\d{9}$/;
+    if(!regx.test(this.state.tel)) {
+      alert('手机号不合法!');
+      return 0;
+    }
+
     if(this.state.name != '' && this.state.tel != '' && this.state.nickid != '') {
-      fetch( '/wechat/bind' ,{
+      fetch( '/bind' ,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -61,7 +67,8 @@ class Sign extends Component {
           name: this.state.name,
           tel: this.state.tel,
           bid: this.state.bid,
-          code: code
+          code: code,
+          openid: openid
         })
       })
       .then((res) => {
@@ -70,6 +77,9 @@ class Sign extends Component {
       .then((res) => {
         if(res.status == 200) {
           alert('绑定成功!');
+          wx.ready(function() {
+            wx.closeWindow();
+          })
         } else {
           alert('绑定失败,请确认信息!');
         }
